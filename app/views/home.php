@@ -91,6 +91,9 @@
         .delete-btn {
             background-color: #f44336;
         }
+        .login-btn {
+            background-color: #40346e;
+        }
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -126,6 +129,39 @@
         .edit-btn.cancel {
             background-color: #f44336;
         }
+        .notifications {
+            position: fixed;
+            top: 0;
+            right: 5px;
+            z-index: 1000;
+        }
+        .notifications>.notification {
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: opacity 0.5s;
+            position: relative;
+        }
+        .notifications>.notification.info {
+            background-color: #a8c5da;
+        }
+        .notifications>.notification.error {
+            background-color: #f5c5c2;
+        }
+        .notifications>.notification.success {
+            background-color: #c5e1a5;
+        }
+        .notifications>.notification>.close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -147,6 +183,7 @@
             renderUsers();
         } catch (error) {
             console.error('Ошибка при загрузке пользователей:', error);
+            notify('Ошибка при загрузке пользователей', 'error');
         }
     }
 
@@ -218,10 +255,36 @@
                     <span onclick="editField(this, ${user.id}, 'email')">${user.email}</span>
                 </div>
                 <div class="user-actions">
+                    <button class="user-btn login-btn" onclick="authorize(${user.id})">Войти</button>
                     <button class="user-btn delete-btn" onclick="deleteUser(${user.id})">Удалить</button>
                 </div>
             `;
         return userElement;
+    }
+
+    function authorize(id) {
+        fetch('/auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id,
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    notify('Авторизация успешна', 'success');
+                    window.location.reload();
+                } else {
+                    console.error('Ошибка авторизации');
+                    notify('Ошибка авторизации<br>'+response.statusText, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                notify('Ошибка авторизации<br>'+error.message, 'error');
+            });
     }
 
     function editField(element, userId, field) {
@@ -288,7 +351,39 @@
         element.textContent = originalValue;
     }
 
-    // Загрузка пользователей при инициализации
+    const notifications = document.createElement('div');
+    notifications.className = `notifications`;
+    document.body.appendChild(notifications);
+
+    function notify(message, type = 'info', duration = 3000) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <p>${message}</p>
+            <button class="close-btn">&times;</button>
+        `;
+        notifications.appendChild(notification);
+
+        let timer;
+
+        function closeNotification() {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }
+
+        function startTimer() {
+            timer = setTimeout(closeNotification, duration);
+        }
+
+        startTimer();
+
+        notification.querySelector('.close-btn').addEventListener('click', closeNotification);
+        notification.addEventListener('mouseenter', () => clearTimeout(timer));
+        notification.addEventListener('mouseleave', startTimer);
+    }
+
     fetchUsers();
 </script>
 </body>

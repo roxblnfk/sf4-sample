@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application;
 
+use App\Module\Auth\AuthBootloader;
 use Cycle\ActiveRecord\Bridge\Spiral\Bootloader\ActiveRecordBootloader;
 use GRPC\Bootloader\ServiceBootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
@@ -48,6 +49,9 @@ class Kernel extends \Spiral\Framework\Kernel
     public function defineBootloaders(): array
     {
         return [
+            // Auth
+            AuthBootloader::class,
+
             // Logging and exceptions handling
             MonologBootloader::class,
             YiiErrorHandlerBootloader::class,
