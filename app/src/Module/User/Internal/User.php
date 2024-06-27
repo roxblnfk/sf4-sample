@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Entity;
+namespace App\Module\User\Internal;
 
-use App\Infrastructure\Persistence\CycleORMUserRepository;
+use App\Module\User\Domain\Entity\UserInterface;
 use Cycle\ActiveRecord\ActiveRecord;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use JsonSerializable;
-use Spiral\Security\ActorInterface;
 
 #[Entity(
-    repository: CycleORMUserRepository::class,
+    repository: UserRepository::class,
 )]
-class User extends ActiveRecord implements JsonSerializable, ActorInterface
+class User extends ActiveRecord implements UserInterface
 {
     /** @psalm-suppress PropertyNotSetInConstructor */
     #[Column(type: 'primary')]

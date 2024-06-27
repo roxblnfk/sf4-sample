@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Endpoint\Web;
 
-use App\Domain\User\Entity\User;
+use App\Module\User\Internal\User;
 use Psr\Http\Message\ServerRequestInterface;
 use Spiral\Auth\AuthContextInterface;
 use Spiral\Auth\TokenStorageInterface;

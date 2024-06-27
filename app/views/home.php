@@ -1,8 +1,8 @@
 <?php
-use App\Domain\User\Entity\User;
+use App\Module\User\Domain\Entity\UserInterface as User;
 use Spiral\Security\Actor\Guest;
 /**
- * @var Guest|User $actor
+ * @var Guest|User $user
  */
 
 ?><!DOCTYPE html>
@@ -46,7 +46,6 @@ use Spiral\Security\Actor\Guest;
             font-weight: bold;
             margin: 0 10px;
         }
-        /* add emoji on the elft*/
         .current-user span.username::before {
             content: '👤';
             margin-right: 5px;
@@ -213,12 +212,12 @@ use Spiral\Security\Actor\Guest;
 </head>
 <body>
 <div class="current-user">
-    <?php if ($actor instanceof Guest): ?>
+    <?php if ($user instanceof Guest): ?>
     <span>Гость</span>
     <?php else: ?>
-        <span class="id"><?= $actor->getId() ?></span>
-        <span class="username"><?= $actor->getUsername() ?></span>
-        <span class="email"><?= $actor->getEmail() ?></span>
+        <span class="id"><?= $user->getId() ?></span>
+        <span class="username"><?= $user->getUsername() ?></span>
+        <span class="email"><?= $user->getEmail() ?></span>
     <?php endif; ?>
 </div>
 

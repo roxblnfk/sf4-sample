@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application;
 
-use App\Module\Auth\AuthBootloader;
+use App\Module;
 use Cycle\ActiveRecord\Bridge\Spiral\Bootloader\ActiveRecordBootloader;
 use GRPC\Bootloader\ServiceBootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
@@ -50,7 +50,7 @@ class Kernel extends \Spiral\Framework\Kernel
     {
         return [
             // Auth
-            AuthBootloader::class,
+            Module\Auth\AuthBootloader::class,
 
             // Logging and exceptions handling
             MonologBootloader::class,
@@ -137,8 +137,7 @@ class Kernel extends \Spiral\Framework\Kernel
     public function defineAppBootloaders(): array
     {
         return [
-            // User Domain
-            Bootloader\PersistenceBootloader::class,
+            Module\User\UserBootloader::class,
 
             // Application domain
             Bootloader\AppBootloader::class,

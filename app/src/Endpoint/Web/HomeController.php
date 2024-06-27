@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Endpoint\Web;
 
+use App\Module\User\Domain\Entity\UserInterface;
 use Exception;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Prototype\Traits\PrototypeTrait;
@@ -24,10 +25,10 @@ final class HomeController
 
     #[Guarded]
     #[Route(route: '/', name: 'index')]
-    public function index(ActorInterface $actor): string
+    public function index(UserInterface $user): string
     {
         return $this->views->render('home', data: [
-            'actor' => $actor,
+            'user' => $user,
         ]);
     }
 

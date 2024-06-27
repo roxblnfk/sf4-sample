@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Internal;
 
-use App\Domain\User\Entity\User;
+use App\Module\User\Internal\User;
 use Cycle\ActiveRecord\Repository\ActiveRepository;
 use Spiral\Auth\ActorProviderInterface;
 use Spiral\Auth\TokenInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Endpoint\Console;
 
-use App\Domain\User\Service\CreateUserService;
+use App\Module\User\Domain\Service\UserServiceInterface;
 use Spiral\Console\Attribute\Argument;
 use Spiral\Console\Attribute\AsCommand;
 use Spiral\Console\Attribute\Question;
@@ -26,7 +26,7 @@ class CreateUserCommand extends Command
     #[Question(question: 'Provide e-mail address')]
     private string $email;
 
-    public function __invoke(CreateUserService $service): int
+    public function __invoke(UserServiceInterface $service): int
     {
         $createdUser = $service->create($this->username, $this->email);
 

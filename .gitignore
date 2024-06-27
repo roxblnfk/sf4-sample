@@ -2,6 +2,8 @@
 vendor
 runtime
 rr*
+dolt.*
+!dolt.yaml
 protoc-gen-php-grpc*
 .env
 .phpunit.result.cache
