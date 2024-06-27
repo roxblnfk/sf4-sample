@@ -7,7 +7,9 @@ namespace App\Application;
 use GRPC\Bootloader\ServiceBootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
+use Spiral\Bootloader\Http\HttpBootloader;
 use Spiral\Cycle\Bootloader as CycleBridge;
+use Spiral\DataGrid\Bootloader\GridBootloader;
 use Spiral\Debug\Bootloader\DumperBootloader;
 use Spiral\DotEnv\Bootloader\DotenvBootloader;
 use Spiral\Events\Bootloader\EventsBootloader;
@@ -22,6 +24,7 @@ use Spiral\Sentry\Bootloader\SentryReporterBootloader;
 use Spiral\Tokenizer\Bootloader\TokenizerListenerBootloader;
 use Spiral\Validation\Bootloader\ValidationBootloader;
 use Spiral\Validation\Symfony\Bootloader\ValidatorBootloader;
+use Spiral\Views\Bootloader\ViewsBootloader;
 use Spiral\YiiErrorHandler\Bootloader\YiiErrorHandlerBootloader;
 
 class Kernel extends \Spiral\Framework\Kernel
@@ -46,6 +49,7 @@ class Kernel extends \Spiral\Framework\Kernel
         return [
             // Logging and exceptions handling
             MonologBootloader::class,
+            YiiErrorHandlerBootloader::class,
             Bootloader\ExceptionHandlerBootloader::class,
 
             // Application specific logs
@@ -54,6 +58,7 @@ class Kernel extends \Spiral\Framework\Kernel
             // RoadRunner
             RoadRunnerBridge\LoggerBootloader::class,
             RoadRunnerBridge\QueueBootloader::class,
+            RoadRunnerBridge\HttpBootloader::class,
 
             // Core Services
             Framework\SnapshotsBootloader::class,
@@ -62,6 +67,15 @@ class Kernel extends \Spiral\Framework\Kernel
             Framework\Security\EncrypterBootloader::class,
             Framework\Security\FiltersBootloader::class,
             Framework\Security\GuardBootloader::class,
+
+            // HTTP extensions
+            HttpBootloader::class,
+            Framework\Http\RouterBootloader::class,
+            Framework\Http\JsonPayloadsBootloader::class,
+            Framework\Http\CookiesBootloader::class,
+            Framework\Http\SessionBootloader::class,
+            Framework\Http\CsrfBootloader::class,
+            Framework\Http\PaginationBootloader::class,
 
             // Databases
             CycleBridge\DatabaseBootloader::class,
@@ -85,13 +99,17 @@ class Kernel extends \Spiral\Framework\Kernel
             // Queue
             QueueBootloader::class,
 
+            // Views
+            ViewsBootloader::class,
             NyholmBootloader::class,
 
+            // Data Grid
+            GridBootloader::class,
+            CycleBridge\DataGridBootloader::class,
             ValidationBootloader::class,
             ValidatorBootloader::class,
 
             RoadRunnerBridge\MetricsBootloader::class,
-
             RoadRunnerBridge\GRPCBootloader::class,
 
             // Console commands
@@ -104,6 +122,9 @@ class Kernel extends \Spiral\Framework\Kernel
 
             // Fast code prototyping
             PrototypeBootloader::class,
+
+            // Configure route groups, middleware for route groups
+            Bootloader\RoutesBootloader::class,
         ];
     }
 
@@ -112,6 +133,9 @@ class Kernel extends \Spiral\Framework\Kernel
         return [
             // User Domain
             Bootloader\PersistenceBootloader::class,
+
+            // Application domain
+            Bootloader\AppBootloader::class,
 
             ServiceBootloader::class,
         ];

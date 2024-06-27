@@ -19,7 +19,7 @@ return [
      * Path, where generated DTO files put.
      * Default: null
      */
-    'generatedPath' => directory('root') . '/generated',
+    'generatedPath' => directory('app') . '/generated',
 
     /**
      * Base namespace for generated proto files.
@@ -31,12 +31,12 @@ return [
      * Paths to proto files, that should be compiled into PHP by "grpc:generate" console command.
      */
     'services' => [
-        directory('root') . '/proto/service.proto'
+        directory('app') . '/proto/service.proto'
     ],
 
     /**
      * Root path for all proto files in which imports will be searched.
      * Default: null
      */
-    'servicesBasePath' => directory('root') . '/proto',
+    'servicesBasePath' => directory('app') . '/proto',
 ];
