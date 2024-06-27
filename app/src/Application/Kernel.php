@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application;
 
+use Cycle\ActiveRecord\Bridge\Spiral\Bootloader\ActiveRecordBootloader;
 use GRPC\Bootloader\ServiceBootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
@@ -85,6 +86,7 @@ class Kernel extends \Spiral\Framework\Kernel
             CycleBridge\SchemaBootloader::class,
             CycleBridge\CycleOrmBootloader::class,
             CycleBridge\AnnotatedBootloader::class,
+            ActiveRecordBootloader::class,
 
             // Event Dispatcher
             EventsBootloader::class,

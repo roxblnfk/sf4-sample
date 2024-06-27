@@ -22,7 +22,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Initialize shared container, bindings, directories and etc.
 $app = Kernel::create(
-    directories: ['root' => __DIR__, 'app' => __DIR__ . '/app'],
+    directories: ['root' => __DIR__, 'app' => __DIR__ . '/app', 'runtime' => __DIR__ . '/runtime'],
     exceptionHandler: Handler::class,
 )->run();
 

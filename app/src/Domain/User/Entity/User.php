@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\Domain\User\Entity;
 
 use App\Infrastructure\Persistence\CycleORMUserRepository;
+use Cycle\ActiveRecord\ActiveRecord;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use JsonSerializable;
 
 #[Entity(
     repository: CycleORMUserRepository::class,
 )]
-class User
+class User extends ActiveRecord implements JsonSerializable
 {
     /** @psalm-suppress PropertyNotSetInConstructor */
     #[Column(type: 'primary')]
     private int $id;
 
-    public function __construct(
-        #[Column(type: 'string')]
-        private string $username,
-        #[Column(type: 'string')]
-        private string $email,
-    ) {
-    }
+    #[Column(type: 'string')]
+    public string $username;
+
+    #[Column(type: 'string')]
+    public string $email;
 
     public function getId(): int
     {
@@ -38,5 +38,14 @@ class User
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'email' => $this->email,
+        ];
     }
 }

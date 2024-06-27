@@ -51,7 +51,7 @@ return [
      */
     'drivers' => [
         'sqlite' => new Config\SQLiteDriverConfig(
-            connection: new Config\SQLite\MemoryConnectionConfig(),
+            connection: new Config\SQLite\FileConnectionConfig(database: directory('runtime') . '/database.sqlite'),
             queryCache: true
         ),
         'pgsql' => new Config\PostgresDriverConfig(

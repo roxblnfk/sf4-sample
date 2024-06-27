@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\Bootloader;
 
+use Monolog\Formatter\JsonFormatter;
+use Monolog\Handler\SocketHandler;
 use Monolog\Logger;
 use Spiral\Boot\Bootloader\Bootloader;
+use Spiral\Boot\EnvironmentInterface;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Http\Middleware\ErrorHandlerMiddleware;
 use Spiral\Monolog\Bootloader\MonologBootloader;
@@ -23,8 +26,12 @@ final class LoggingBootloader extends Bootloader
     ) {
     }
 
-    public function init(MonologBootloader $monolog): void
+    public function init(MonologBootloader $monolog, EnvironmentInterface $env): void
     {
+        $handler = new SocketHandler($env->get('MONOLOG_SOCKET_HOST'), chunkSize: 10);
+        $handler->setFormatter(new JsonFormatter(JsonFormatter::BATCH_MODE_NEWLINES));
+        $monolog->addHandler('socket', $handler);
+
         // HTTP level errors
         $monolog->addHandler(
             channel: ErrorHandlerMiddleware::class,

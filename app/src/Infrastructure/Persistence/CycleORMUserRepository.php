@@ -25,4 +25,9 @@ final class CycleORMUserRepository extends Repository implements UserRepositoryI
 
         return $user;
     }
+
+    public function getAll(): array
+    {
+        return $this->select()->fetchAll();
+    }
 }
