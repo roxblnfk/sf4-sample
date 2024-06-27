@@ -9,11 +9,12 @@ use Cycle\ActiveRecord\ActiveRecord;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use JsonSerializable;
+use Spiral\Security\ActorInterface;
 
 #[Entity(
     repository: CycleORMUserRepository::class,
 )]
-class User extends ActiveRecord implements JsonSerializable
+class User extends ActiveRecord implements JsonSerializable, ActorInterface
 {
     /** @psalm-suppress PropertyNotSetInConstructor */
     #[Column(type: 'primary')]
@@ -47,5 +48,10 @@ class User extends ActiveRecord implements JsonSerializable
             'username' => $this->username,
             'email' => $this->email,
         ];
+    }
+
+    public function getRoles(): array
+    {
+        return [];
     }
 }

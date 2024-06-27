@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<?php
+use App\Domain\User\Entity\User;
+use Spiral\Security\Actor\Guest;
+/**
+ * @var Guest|User $actor
+ */
+
+?><!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +18,46 @@
             padding: 20px;
             background-color: #f0f0f0;
         }
+        .current-user {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            padding: 15px;
+            background-color: #5ab8ff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .current-user span {
+            display: inline-block;
+            color: #fff;
+            background-color: #0077cc;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        .current-user span.id {
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        .current-user span.id::before {
+            content: '#️⃣';
+            margin-right: 5px;
+        }
+        .current-user span.username {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        /* add emoji on the elft*/
+        .current-user span.username::before {
+            content: '👤';
+            margin-right: 5px;
+        }
+        .current-user span.email {
+        }
+        .current-user span.email::before {
+            content: '✉️';
+            margin-left: 5px;
+        }
+
         .board {
             max-width: 800px;
             margin: 0 auto;
@@ -165,9 +212,19 @@
     </style>
 </head>
 <body>
+<div class="current-user">
+    <?php if ($actor instanceof Guest): ?>
+    <span>Гость</span>
+    <?php else: ?>
+        <span class="id"><?= $actor->getId() ?></span>
+        <span class="username"><?= $actor->getUsername() ?></span>
+        <span class="email"><?= $actor->getEmail() ?></span>
+    <?php endif; ?>
+</div>
+
 <div class="board">
     <div class="board-header">
-        <h2>Список пользователей</h2>
+        <span>Список пользователей</span>
         <button class="add-user-btn" onclick="addUser()">Добавить пользователя</button>
     </div>
     <div class="user-list" id="userList"></div>

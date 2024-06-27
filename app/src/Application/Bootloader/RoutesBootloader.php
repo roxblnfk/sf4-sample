@@ -31,7 +31,6 @@ final class RoutesBootloader extends BaseRoutesBootloader
         return [
             ErrorHandlerMiddleware::class,
             DumperMiddleware::class,
-            AuthMiddleware::class,
             JsonPayloadMiddleware::class,
             HttpCollector::class,
         ];
@@ -43,6 +42,7 @@ final class RoutesBootloader extends BaseRoutesBootloader
             'web' => [
                 CookiesMiddleware::class,
                 SessionMiddleware::class,
+                AuthMiddleware::class,
                 CsrfMiddleware::class,
                 ValidationHandlerMiddleware::class
             ],

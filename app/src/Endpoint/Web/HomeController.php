@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Endpoint\Web;
 
 use Exception;
+use Spiral\Domain\Annotation\Guarded;
 use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
+use Spiral\Security\ActorInterface;
 
 /**
  * Simple home page controller. It renders home page template and also provides
@@ -20,11 +22,13 @@ final class HomeController
      */
     use PrototypeTrait;
 
-
+    #[Guarded]
     #[Route(route: '/', name: 'index')]
-    public function index(): string
+    public function index(ActorInterface $actor): string
     {
-        return $this->views->render('home');
+        return $this->views->render('home', data: [
+            'actor' => $actor,
+        ]);
     }
 
     /**

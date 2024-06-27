@@ -8,6 +8,7 @@ use App\Domain\User\Entity\User;
 use App\Module\Auth\Internal\Repository;
 use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Bootloader\Auth\HttpAuthBootloader;
+use Spiral\Bootloader\Auth\SecurityActorBootloader;
 use Spiral\Cycle\Bootloader\AuthTokensBootloader;
 
 final class AuthBootloader extends Bootloader
@@ -15,12 +16,12 @@ final class AuthBootloader extends Bootloader
     protected const DEPENDENCIES = [
         AuthTokensBootloader::class,
         HttpAuthBootloader::class,
+        SecurityActorBootloader::class,
     ];
 
     public function defineSingletons(): array
     {
         return [
-            // ActorProviderInterface::class => Repository::class,
             Repository::class => fn() => new Repository(User::class),
         ];
     }
