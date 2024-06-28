@@ -130,12 +130,7 @@ class Kernel extends \Spiral\Framework\Kernel
 
             // Configure route groups, middleware for route groups
             Bootloader\RoutesBootloader::class,
-        ];
-    }
 
-    public function defineAppBootloaders(): array
-    {
-        return [
             Module\User\UserBootloader::class,
             Module\Mailer\MailerBootloader::class,
 

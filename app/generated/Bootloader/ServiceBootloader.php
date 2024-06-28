@@ -40,7 +40,7 @@ class ServiceBootloader extends Bootloader
             GRPCServicesConfig::CONFIG,
             [
                 'services' => [
-                    MailerServiceClient::class => ['host' => $env->get('MAILER_SERVICE_HOST', '127.0.0.1:9000')],
+                    MailerServiceClient::class => ['host' => $env->get('MAILER_SERVICE_HOST', '127.0.0.1:9001')],
                 ],
             ]
         );
