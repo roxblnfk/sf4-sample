@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace GRPC\Bootloader;
 
 use GRPC\Config\GRPCServicesConfig;
-use GRPC\Ping\PingServiceClient;
-use GRPC\Ping\PingServiceInterface;
+use GRPC\Ping\MailerServiceClient;
+use GRPC\Ping\MailerServiceInterface;
 use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Boot\EnvironmentInterface;
 use Spiral\Config\ConfiguratorInterface;
@@ -14,17 +14,11 @@ use Spiral\Core\Container;
 use Spiral\Core\InterceptableCore;
 use Spiral\RoadRunnerBridge\GRPC\Interceptor\ServiceClientCore;
 
-/**
- * Automatically generated bootloader by GRPC services generator.
- * It uses only in case of you need make requests to GRPC services from your application.
- *
- * It registers all GRPC services interfaces as a clients in the container and env variables with service hosts.
- * @see PING_SERVICE_HOST env variable in .env file.
- */
-final class ServiceBootloader extends Bootloader
+class ServiceBootloader extends Bootloader
 {
-    public function __construct(public ConfiguratorInterface $config)
-    {
+    public function __construct(
+        private readonly ConfiguratorInterface $config,
+    ) {
     }
 
     public function init(EnvironmentInterface $env): void
@@ -46,7 +40,7 @@ final class ServiceBootloader extends Bootloader
             GRPCServicesConfig::CONFIG,
             [
                 'services' => [
-                    PingServiceClient::class => ['host' => $env->get('PING_SERVICE_HOST', '127.0.0.1:9000')],
+                    MailerServiceClient::class => ['host' => $env->get('MAILER_SERVICE_HOST', '127.0.0.1:9000')],
                 ],
             ]
         );
@@ -58,16 +52,20 @@ final class ServiceBootloader extends Bootloader
     private function initServices(Container $container): void
     {
         $container->bindSingleton(
-            PingServiceInterface::class,
-            static function (GRPCServicesConfig $config): PingServiceInterface {
-                $service = $config->getService(PingServiceClient::class);
+            MailerServiceInterface::class,
+            static function(GRPCServicesConfig $config) use($container): MailerServiceInterface
+            {
+                $service = $config->getService(MailerServiceClient::class);
+                $core = new InterceptableCore(new ServiceClientCore(
+                    $service['host'],
+                    ['credentials' => $service['credentials'] ?? $config->getDefaultCredentials()]
+                ));
 
-                return new PingServiceClient(
-                    new InterceptableCore(new ServiceClientCore(
-                        $service['host'],
-                        ['credentials' => $service['credentials'] ?? $config->getDefaultCredentials()]
-                    ))
-                );
+                foreach ($config->getInterceptors() as $interceptor) {
+                    $core->addInterceptor($container->get($interceptor));
+                }
+
+                return $container->make(MailerServiceClient::class, ['core' => $core]);
             }
         );
     }

@@ -137,6 +137,7 @@ class Kernel extends \Spiral\Framework\Kernel
     {
         return [
             Module\User\UserBootloader::class,
+            Module\Mailer\MailerBootloader::class,
 
             // Application domain
             Bootloader\AppBootloader::class,

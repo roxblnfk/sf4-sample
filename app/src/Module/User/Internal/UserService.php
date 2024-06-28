@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\User\Internal;
 
-use App\Module\Messenger\Domain\SendEmail;
+use App\Module\Messenger\Domain\SendWelcomeMail;
 use App\Module\User\Domain\Entity\UserInterface;
 use App\Module\User\Domain\Service\UserServiceInterface as ServiceInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -27,7 +27,7 @@ final class UserService implements ServiceInterface
         $user->saveOrFail();
 
         // Run job
-        $this->bus->dispatch(new SendEmail());
+        $this->bus->dispatch(new SendWelcomeMail($user->getId(), $user->getEmail(), $user->getUsername()));
 
         return $user;
     }

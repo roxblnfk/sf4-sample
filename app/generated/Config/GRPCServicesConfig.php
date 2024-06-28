@@ -7,16 +7,21 @@ namespace GRPC\Config;
 use Grpc\ChannelCredentials;
 use Spiral\Core\InjectableConfig;
 
-final class GRPCServicesConfig extends InjectableConfig
+class GRPCServicesConfig extends InjectableConfig
 {
     public const CONFIG = 'grpcServices';
 
     /** @var array<class-string, array{host: string, credentials?: mixed}> */
-    protected array $config = ['services' => []];
+    protected array $config = ['services' => [], 'interceptors' => []];
 
     public function getDefaultCredentials(): mixed
     {
         return ChannelCredentials::createInsecure();
+    }
+
+    public function getInterceptors(): array
+    {
+        return $this->config['interceptors'];
     }
 
     /**
@@ -26,7 +31,7 @@ final class GRPCServicesConfig extends InjectableConfig
     public function getService(string $name): array
     {
         return $this->config['services'][$name] ?? [
-            'host' => 'localhost',
+            'host' => 'localhost'
         ];
     }
 }
