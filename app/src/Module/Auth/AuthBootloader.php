@@ -13,11 +13,14 @@ use Spiral\Cycle\Bootloader\AuthTokensBootloader;
 
 final class AuthBootloader extends Bootloader
 {
-    protected const DEPENDENCIES = [
-        AuthTokensBootloader::class,
-        HttpAuthBootloader::class,
-        SecurityActorBootloader::class,
-    ];
+    public function defineDependencies(): array
+    {
+        return [
+            AuthTokensBootloader::class,
+            HttpAuthBootloader::class,
+            SecurityActorBootloader::class,
+        ];
+    }
 
     public function defineSingletons(): array
     {

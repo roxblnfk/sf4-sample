@@ -26,6 +26,7 @@
         "spiral/roadrunner-bridge": "^4.0",
         "spiral/roadrunner-cli": "^2.5",
         "spiral/sentry-bridge": "^2.1",
+        "spiral/symfony-messenger": "dev-master#20ba14f5cb1262d195ca30325fcd7448eb4c5454",
         "spiral/translator": "*",
         "spiral/views": "*"
     },

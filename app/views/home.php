@@ -2,7 +2,7 @@
 use App\Module\User\Domain\Entity\UserInterface as User;
 use Spiral\Security\Actor\Guest;
 /**
- * @var Guest|User $user
+ * @var null|User $user
  */
 
 ?><!DOCTYPE html>
@@ -212,12 +212,12 @@ use Spiral\Security\Actor\Guest;
 </head>
 <body>
 <div class="current-user">
-    <?php if ($user instanceof Guest): ?>
-    <span>Гость</span>
-    <?php else: ?>
+    <?php if ($user instanceof User): ?>
         <span class="id"><?= $user->getId() ?></span>
         <span class="username"><?= $user->getUsername() ?></span>
         <span class="email"><?= $user->getEmail() ?></span>
+    <?php else: ?>
+        <span>Гость</span>
     <?php endif; ?>
 </div>
 

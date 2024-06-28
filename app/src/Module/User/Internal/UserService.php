@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Module\User\Internal;
 
+use App\Module\Messenger\Domain\SendEmail;
 use App\Module\User\Domain\Entity\UserInterface;
 use App\Module\User\Domain\Service\UserServiceInterface as ServiceInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * Simple service that creates new user.
@@ -13,7 +15,8 @@ use App\Module\User\Domain\Service\UserServiceInterface as ServiceInterface;
 final class UserService implements ServiceInterface
 {
     public function __construct(
-        private readonly UserRepository $repository
+        private readonly UserRepository $repository,
+        private readonly MessageBusInterface $bus,
     ) {}
 
     public function create(string $username, string $email): User
@@ -22,6 +25,9 @@ final class UserService implements ServiceInterface
         $user->username = $username;
         $user->email = $email;
         $user->saveOrFail();
+
+        // Run job
+        $this->bus->dispatch(new SendEmail());
 
         return $user;
     }

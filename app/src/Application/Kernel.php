@@ -62,7 +62,6 @@ class Kernel extends \Spiral\Framework\Kernel
 
             // RoadRunner
             RoadRunnerBridge\LoggerBootloader::class,
-            RoadRunnerBridge\QueueBootloader::class,
             RoadRunnerBridge\HttpBootloader::class,
 
             // Core Services
@@ -102,9 +101,6 @@ class Kernel extends \Spiral\Framework\Kernel
             Framework\Debug\LogCollectorBootloader::class,
             Framework\Debug\HttpCollectorBootloader::class,
 
-            // Queue
-            QueueBootloader::class,
-
             // Views
             ViewsBootloader::class,
             NyholmBootloader::class,
@@ -128,6 +124,9 @@ class Kernel extends \Spiral\Framework\Kernel
 
             // Fast code prototyping
             PrototypeBootloader::class,
+
+            // Messenger
+            Module\Messenger\MessengerBootloader::class,
 
             // Configure route groups, middleware for route groups
             Bootloader\RoutesBootloader::class,

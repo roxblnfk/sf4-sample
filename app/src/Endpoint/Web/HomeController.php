@@ -9,7 +9,6 @@ use Exception;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
-use Spiral\Security\ActorInterface;
 
 /**
  * Simple home page controller. It renders home page template and also provides
@@ -25,7 +24,7 @@ final class HomeController
 
     #[Guarded]
     #[Route(route: '/', name: 'index')]
-    public function index(UserInterface $user): string
+    public function index(?UserInterface $user): string
     {
         return $this->views->render('home', data: [
             'user' => $user,
