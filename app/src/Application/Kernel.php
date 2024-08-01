@@ -60,6 +60,10 @@ class Kernel extends \Spiral\Framework\Kernel
             // Application specific logs
             Bootloader\LoggingBootloader::class,
 
+            // Queue
+            // QueueBootloader::class,
+            // RoadRunnerBridge\QueueBootloader::class,
+
             // RoadRunner
             RoadRunnerBridge\LoggerBootloader::class,
             RoadRunnerBridge\HttpBootloader::class,
@@ -114,6 +118,11 @@ class Kernel extends \Spiral\Framework\Kernel
             RoadRunnerBridge\MetricsBootloader::class,
             RoadRunnerBridge\GRPCBootloader::class,
 
+            // gRPC client
+            // \Spiral\Grpc\Client\Bridge\GrpcClientBootloader::class,
+            RoadRunnerBridge\GRPCBootloader::class,
+            // ServiceBootloader::class,
+
             // Console commands
             Framework\CommandBootloader::class,
             RoadRunnerBridge\CommandBootloader::class,
@@ -137,7 +146,6 @@ class Kernel extends \Spiral\Framework\Kernel
             // Application domain
             Bootloader\AppBootloader::class,
 
-            ServiceBootloader::class,
         ];
     }
 }
