@@ -20,7 +20,7 @@ return [
      * You can download the binary here: https://github.com/roadrunner-server/roadrunner/releases
      * Default: null
      */
-    'binaryPath' => directory('root') . 'protoc-gen-php-grpc',
+    'binaryPath' => directory('root') . 'protoc-gen-php-grpc.exe',
 
     /**
      * Path, where generated DTO files put.
@@ -38,7 +38,8 @@ return [
      * Paths to proto files, that should be compiled into PHP by "grpc:generate" console command.
      */
     'services' => [
-        directory('app') . '/proto/service.proto'
+        directory('app') . 'proto/mailer.proto',
+        directory('app') . 'proto-ping/pinger.proto',
     ],
 
     /**
@@ -59,7 +60,7 @@ return [
             new \Spiral\Grpc\Client\Config\ServiceConfig(
                 connections: ConnectionConfig::createInsecure('localhost:9001'),
                 interfaces: [
-                    \GRPC\Ping\MailerServiceInterface::class
+                    \GRPC\Mailer\MailerServiceInterface::class
                 ],
             ),
         ],

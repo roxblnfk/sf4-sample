@@ -6,8 +6,8 @@ namespace App\Module\Messenger\Consumer;
 
 use App\Module\Messenger\Domain\SendWelcomeMail;
 use Google\Protobuf\Timestamp;
-use GRPC\Ping\MailerServiceInterface;
-use GRPC\Ping\SendMailRequest;
+use GRPC\Mailer\MailerServiceInterface;
+use GRPC\Mailer\SendMailRequest;
 use Spiral\Core\Attribute\Singleton;
 use Spiral\Core\Internal\Introspector;
 use Spiral\Messenger\Attribute\HandlerMethod;

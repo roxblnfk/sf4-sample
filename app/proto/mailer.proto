@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package mailer.dto;
+
+option php_namespace = "GRPC\\Mailer";
+option php_metadata_namespace = "GRPC\\Mailer\\GPBMetadata";
+
+//import "google/protobuf/timestamp.proto";
+
+service MailerService {
+    rpc SendMail (mailer.dto.SendMailRequest) returns (mailer.dto.SendMailResponse) {
+    }
+}
+
+message SendMailRequest {
+    string from = 1;
+    string to = 2;
+    string subject = 3;
+    string body = 4;
+//    google.protobuf.Timestamp deadline = 5;
+}
+
+message SendMailResponse {
+}
