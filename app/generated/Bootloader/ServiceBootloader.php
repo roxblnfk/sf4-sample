@@ -42,9 +42,8 @@ class ServiceBootloader extends Bootloader
             GRPCServicesConfig::CONFIG,
             [
                 'services' => [
-                    MailerServiceClient::class => ['host' => $env->get('MAILER_SERVICE_HOST', '127.0.0.1:9000')],
-                    PingServiceClient::class => ['host' => $env->get('PING_SERVICE_HOST', '127.0.0.1:9001')],
-                    PingServiceClient::class => ['host' => $env->get('PING_SERVICE_HOST', '127.0.0.1:9002')],
+                    PingServiceClient::class => ['host' => $env->get('PING_SERVICE_HOST', '127.0.0.1:9000')],
+                    MailerServiceClient::class => ['host' => $env->get('MAILER_SERVICE_HOST', '127.0.0.1:9001')],
                 ],
             ]
         );
@@ -55,6 +54,23 @@ class ServiceBootloader extends Bootloader
      */
     private function initServices(Container $container): void
     {
+        $container->bindSingleton(
+            PingServiceInterface::class,
+            static function(GRPCServicesConfig $config) use($container): PingServiceInterface
+            {
+                $service = $config->getService(PingServiceClient::class);
+                $core = new InterceptableCore(new ServiceClientCore(
+                    $service['host'],
+                    ['credentials' => $service['credentials'] ?? $config->getDefaultCredentials()]
+                ));
+
+                foreach ($config->getInterceptors() as $interceptor) {
+                    $core->addInterceptor($container->get($interceptor));
+                }
+
+                return $container->make(PingServiceClient::class, ['core' => $core]);
+            }
+        );
         $container->bindSingleton(
             MailerServiceInterface::class,
             static function(GRPCServicesConfig $config) use($container): MailerServiceInterface
@@ -70,40 +86,6 @@ class ServiceBootloader extends Bootloader
                 }
 
                 return $container->make(MailerServiceClient::class, ['core' => $core]);
-            }
-        );
-        $container->bindSingleton(
-            PingServiceInterface::class,
-            static function(GRPCServicesConfig $config) use($container): PingServiceInterface
-            {
-                $service = $config->getService(PingServiceClient::class);
-                $core = new InterceptableCore(new ServiceClientCore(
-                    $service['host'],
-                    ['credentials' => $service['credentials'] ?? $config->getDefaultCredentials()]
-                ));
-
-                foreach ($config->getInterceptors() as $interceptor) {
-                    $core->addInterceptor($container->get($interceptor));
-                }
-
-                return $container->make(PingServiceClient::class, ['core' => $core]);
-            }
-        );
-        $container->bindSingleton(
-            PingServiceInterface::class,
-            static function(GRPCServicesConfig $config) use($container): PingServiceInterface
-            {
-                $service = $config->getService(PingServiceClient::class);
-                $core = new InterceptableCore(new ServiceClientCore(
-                    $service['host'],
-                    ['credentials' => $service['credentials'] ?? $config->getDefaultCredentials()]
-                ));
-
-                foreach ($config->getInterceptors() as $interceptor) {
-                    $core->addInterceptor($container->get($interceptor));
-                }
-
-                return $container->make(PingServiceClient::class, ['core' => $core]);
             }
         );
     }

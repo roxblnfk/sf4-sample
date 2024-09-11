@@ -6,8 +6,10 @@ namespace App\Endpoint\Web;
 
 use App\Module\User\Domain\Entity\UserInterface;
 use Exception;
+use GRPC\Mailer\SendMailRequest;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Prototype\Traits\PrototypeTrait;
+use Spiral\RoadRunner\GRPC\Context;
 use Spiral\Router\Annotation\Route;
 
 /**
@@ -39,4 +41,23 @@ final class HomeController
     {
         throw new Exception('This is a test exception.');
     }
+
+    /**
+     * Example of exception page.
+     */
+    #[Route(route: '/grpc')]
+    public function grpc(\GRPC\Mailer\MailerServiceInterface $service): mixed
+    {
+        return $service->SendMail(
+            new Context([]),
+            (new SendMailRequest())
+                ->setFrom('service@mail.dot')
+                ->setTo('user@dot.mail')
+                ->setSubject('test')
+                ->setBody('test body')
+        )->serializeToJsonString();
+    }
 }
+
+
+

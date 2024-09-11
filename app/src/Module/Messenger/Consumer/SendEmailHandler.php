@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Module\Messenger\Consumer;
 
 use App\Module\Messenger\Domain\SendWelcomeMail;
+use App\Module\Messenger\Internal\RequestRandomNumber;
 use Google\Protobuf\Timestamp;
 use GRPC\Mailer\MailerServiceInterface;
 use GRPC\Mailer\SendMailRequest;
@@ -22,8 +23,10 @@ final readonly class SendEmailHandler
     }
 
     #[HandlerMethod]
-    public function __invoke(SendWelcomeMail $email): void
+    public function __invoke(SendWelcomeMail $email, RequestRandomNumber $number): void
     {
+        trap(Introspector::scopeNames());
+        trap($number->value);
         trap(Consumer: 'Got task to send Email. Scope: ' . Introspector::scopeName());
 
         // Send GRPC request to email service

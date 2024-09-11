@@ -5,7 +5,7 @@ package ping.dto;
 option php_namespace = "GRPC\\Ping";
 option php_metadata_namespace = "GRPC\\Ping\\GPBMetadata";
 
-//import "google/protobuf/timestamp.proto";
+import "google/protobuf/timestamp.proto";
 
 service PingService {
     rpc Ping (ping.dto.PingRequest) returns (ping.dto.PingResponse) {
@@ -17,7 +17,7 @@ message PingRequest {
     string to = 2;
     string subject = 3;
     string body = 4;
-//    google.protobuf.Timestamp deadline = 5;
+    google.protobuf.Timestamp deadline = 5;
 }
 
 message PingResponse {

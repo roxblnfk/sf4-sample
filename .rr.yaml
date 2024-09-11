@@ -4,7 +4,9 @@ rpc:
 grpc:
     listen: 'tcp://127.0.0.1:9001'
     proto:
-        - app/proto/service.proto
+        - app/proto/mailer/service.proto
+    pool:
+      num_workers: 1
 server:
     command: 'php app.php'
     relay: pipes

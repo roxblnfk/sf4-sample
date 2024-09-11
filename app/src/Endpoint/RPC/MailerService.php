@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace App\Endpoint\RPC;
 
-use App\Module\Mailer\Api\MailSenderInterface;
-use GRPC\Ping\SendMailRequest;
-use GRPC\Ping\SendMailResponse;
+use GRPC\Mailer\SendMailRequest;
+use GRPC\Mailer\SendMailResponse;
 use Psr\Log\LoggerInterface;
-use Spiral\Mailer\Message;
 use Spiral\RoadRunner\GRPC;
 
 /**
  * @link https://spiral.dev/docs/grpc-configuration
  */
-final class MailerService implements \GRPC\Ping\MailerServiceInterface
+final class MailerService implements \GRPC\Mailer\MailerServiceInterface
 {
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly MailSenderInterface $mailSender,
+        // private readonly MailSenderInterface $mailSender,
     ) {
     }
 
@@ -26,7 +24,7 @@ final class MailerService implements \GRPC\Ping\MailerServiceInterface
     {
         $this->logger->info('Got request to send email', ['to' => $in->getTo()]);
 
-        $this->mailSender->send(new Message($in->getSubject(), $in->getBody()));
+        // $this->mailSender->send(new Message($in->getSubject(), $in->getBody()));
 
         return new SendMailResponse();
     }

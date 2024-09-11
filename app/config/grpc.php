@@ -16,13 +16,6 @@ use Spiral\Grpc\Client\Interceptor\SetTimoutInterceptor;
 
 return [
     /**
-     * Path to protoc-gen-php-grpc library.
-     * You can download the binary here: https://github.com/roadrunner-server/roadrunner/releases
-     * Default: null
-     */
-    'binaryPath' => directory('root') . 'protoc-gen-php-grpc.exe',
-
-    /**
      * Path, where generated DTO files put.
      * Default: null
      */
@@ -38,8 +31,9 @@ return [
      * Paths to proto files, that should be compiled into PHP by "grpc:generate" console command.
      */
     'services' => [
-        directory('app') . 'proto/mailer.proto',
-        directory('app') . 'proto-ping/pinger.proto',
+        directory('app') . 'proto/google/timestamp.proto',
+        directory('app') . 'proto/mailer/service.proto',
+        directory('app') . 'proto/pinger/service.proto',
     ],
 
     /**
