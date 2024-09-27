@@ -20,7 +20,7 @@
         "spiral-packages/yii-error-handler-bridge": "^1.1",
         "spiral/cycle-bridge": "^2.9",
         "spiral/data-grid-bridge": "^3.0.1",
-        "spiral/framework": "^3.14",
+        "spiral/framework": "^3.14.4",
         "spiral/grpc-client": "^1.0",
         "spiral/http": "^3.14",
         "spiral/nyholm-bridge": "^1.3",

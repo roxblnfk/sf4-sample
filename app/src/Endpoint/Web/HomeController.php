@@ -7,7 +7,8 @@ namespace App\Endpoint\Web;
 use App\Module\User\Domain\Entity\UserInterface;
 use Exception;
 use GRPC\Mailer\SendMailRequest;
-use Spiral\Domain\Annotation\Guarded;
+use Spiral\Debug\StateCollector\EnvironmentCollector;
+use Spiral\Debug\StateInterface;
 use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\RoadRunner\GRPC\Context;
 use Spiral\Router\Annotation\Route;
@@ -24,7 +25,6 @@ final class HomeController
      */
     use PrototypeTrait;
 
-    #[Guarded]
     #[Route(route: '/', name: 'index')]
     public function index(?UserInterface $user): string
     {
@@ -37,8 +37,9 @@ final class HomeController
      * Example of exception page.
      */
     #[Route(route: '/exception', name: 'exception')]
-    public function exception(): never
+    public function exception(EnvironmentCollector $collector, StateInterface $state): never
     {
+        trap($state);
         throw new Exception('This is a test exception.');
     }
 

@@ -10,7 +10,7 @@ use Spiral\Security\Actor\Guest;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список пользователей</title>
+    <title>User list</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -217,14 +217,14 @@ use Spiral\Security\Actor\Guest;
         <span class="username"><?= $user->getUsername() ?></span>
         <span class="email"><?= $user->getEmail() ?></span>
     <?php else: ?>
-        <span>Гость</span>
+        <span>Guest</span>
     <?php endif; ?>
 </div>
 
 <div class="board">
     <div class="board-header">
-        <span>Список пользователей</span>
-        <button class="add-user-btn" onclick="addUser()">Добавить пользователя</button>
+        <span>User list</span>
+        <button class="add-user-btn" onclick="addUser()">Add user</button>
     </div>
     <div class="user-list" id="userList"></div>
 </div>
@@ -238,8 +238,8 @@ use Spiral\Security\Actor\Guest;
             users = await response.json();
             renderUsers();
         } catch (error) {
-            console.error('Ошибка при загрузке пользователей:', error);
-            notify('Ошибка при загрузке пользователей', 'error');
+            console.error('Loading error:', error);
+            notify('Loading error', 'error');
         }
     }
 
@@ -261,7 +261,7 @@ use Spiral\Security\Actor\Guest;
             }
         });
 
-        // Удаляем карточки пользователей, которых больше нет в списке
+        // Remove user cards that are no longer in the list
         currentCards.forEach(card => {
             if (!users.some(user => user.id.toString() === card.dataset.id)) {
                 card.remove();
@@ -274,13 +274,13 @@ use Spiral\Security\Actor\Guest;
             const response = await fetch('/api/user/new', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({})  // Пустой объект, так как данные генерируются на сервере
+                body: JSON.stringify({})  // Empty object, because data is generated on the server
             });
             const newUser = await response.json();
             users.push(newUser);
             renderUsers();
         } catch (error) {
-            console.error('Ошибка при добавлении пользователя:', error);
+            console.error('Error adding user:', error);
         }
     }
 
@@ -292,12 +292,12 @@ use Spiral\Security\Actor\Guest;
             if (response.ok) {
                 const userElement = document.querySelector(`.user-card[data-id="${id}"]`);
                 userElement.classList.add('deleting');
-                await new Promise(resolve => setTimeout(resolve, 300)); // Ждем завершения анимации
+                await new Promise(resolve => setTimeout(resolve, 300)); // Wait for the animation to finish
                 users = users.filter(user => user.id !== id);
                 renderUsers();
             }
         } catch (error) {
-            console.error('Ошибка при удалении пользователя:', error);
+            console.error('Error deleting user:', error);
         }
     }
 
@@ -311,8 +311,8 @@ use Spiral\Security\Actor\Guest;
                     <span onclick="editField(this, ${user.id}, 'email')">${user.email}</span>
                 </div>
                 <div class="user-actions">
-                    <button class="user-btn login-btn" onclick="authorize(${user.id})">Войти</button>
-                    <button class="user-btn delete-btn" onclick="deleteUser(${user.id})">Удалить</button>
+                    <button class="user-btn login-btn" onclick="authorize(${user.id})">Sign In</button>
+                    <button class="user-btn delete-btn" onclick="deleteUser(${user.id})">Remove</button>
                 </div>
             `;
         return userElement;
@@ -330,16 +330,16 @@ use Spiral\Security\Actor\Guest;
         })
             .then(response => {
                 if (response.ok) {
-                    notify('Авторизация успешна', 'success');
+                    notify('Authorization successful', 'success');
                     window.location.reload();
                 } else {
-                    console.error('Ошибка авторизации');
-                    notify('Ошибка авторизации<br>'+response.statusText, 'error');
+                    console.error('Authorization error:', response.statusText);
+                    notify('Authorization error' + response.statusText, 'error');
                 }
             })
             .catch(error => {
-                console.error('Ошибка:', error);
-                notify('Ошибка авторизации<br>'+error.message, 'error');
+                console.error('Error:', error);
+                notify('Authorization error' + error.message, 'error');
             });
     }
 
@@ -398,7 +398,7 @@ use Spiral\Security\Actor\Guest;
             users[index] = updatedUser;
             renderUsers();
         } catch (error) {
-            console.error('Ошибка при редактировании пользователя:', error);
+            console.error('Error editing user:', error);
             cancelEdit(element, newValue);
         }
     }

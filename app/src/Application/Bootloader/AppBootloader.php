@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Bootloader;
 
+use App\Application\Interceptor\DumpInterceptor;
 use Spiral\Bootloader\DomainBootloader;
 use Spiral\Core\CompatiblePipelineBuilder;
 use Spiral\Core\CoreInterface;
@@ -23,6 +24,7 @@ final class AppBootloader extends DomainBootloader
     ];
 
     protected const INTERCEPTORS = [
+        DumpInterceptor::class,
         CycleInterceptor::class,
         GridInterceptor::class,
         GuardInterceptor::class,
