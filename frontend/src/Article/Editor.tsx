@@ -4,10 +4,10 @@ import "@blocknote/mantine/style.css";
 import {useCreateBlockNote} from "@blocknote/react";
 import {useEffect, useState} from "react";
 import {Block} from "@blocknote/core";
-import {loadArticle, saveArticle} from "./Article/Api";
-import {Article} from "./Article/Dto";
+import {loadArticle, saveArticle} from "./Api";
+import {Article} from "./Dto";
 
-export default function App() {
+export default function Editor() {
     const uuid = '123';
     const [blocks, setBlocks] = useState<Block[]>([]);
     const [title, setTitle] = useState<string>('');
