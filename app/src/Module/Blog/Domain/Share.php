@@ -31,19 +31,19 @@ class Share extends \App\Module\Common\Domain\Entity
     #[ORM\Column(type: 'uuid', nullable: true, typecast: 'uuid')]
     public ?UuidInterface $postUuid = null;
 
-    #[ORM\Column(type: 'string', nullable: true, typecast: ExternalLink::class)]
+    #[ORM\Column(type: 'string', nullable: true, typecast: [ExternalLink::class, 'castValue'])]
     public ?ExternalLink $externalLink = null;
 
     #[ORM\Column(type: 'boolean')]
     public bool $isPublished = false;
 
     #[ORM\Column(type: 'datetime')]
-    public \DateTimeInterface $publishedAt;
+    public \DateTimeImmutable $publishedAt;
 
     /**
      * When the entity was created.
      */
-    public \DateTimeInterface $createdAt;
+    public \DateTimeImmutable $createdAt;
 
     #[ORM\Relation\BelongsTo(target: Post::class, innerKey: 'postUuid', outerKey: 'uuid', nullable: true)]
     public ?Post $post = null;

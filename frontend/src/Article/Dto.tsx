@@ -17,13 +17,13 @@ export class ArticleEdit {
 export class ArticlePreview {
     id: string;
     title: string;
-    content: string;
+    description: string;
     url: string;
 
     constructor(id: string, title: string, content: string, url?: string) {
         this.id = id;
         this.title = title;
-        this.content = content;
+        this.description = content;
         this.url = url || `/article/${id}`;
     }
 }

@@ -19,13 +19,13 @@ class Post extends \App\Module\Common\Domain\Entity
     #[ORM\Column(type: 'uuid', primary: true)]
     public UuidInterface $uuid;
 
-    #[ORM\Column(type: 'string', typecast: Title::class)]
+    #[ORM\Column(type: 'string', typecast: [Title::class, 'castValue'])]
     public Title $title;
 
-    #[ORM\Column(type: 'text', typecast: Content::class)]
+    #[ORM\Column(type: 'text', typecast: [Content::class, 'castValue'])]
     public Content $content;
 
-    public \DateTimeInterface $createdAt;
+    public \DateTimeImmutable $createdAt;
 
     #[ORM\Relation\HasOne(target: Share::class, innerKey: 'uuid', outerKey: 'postUuid', nullable: true)]
     public ?Share $post = null;

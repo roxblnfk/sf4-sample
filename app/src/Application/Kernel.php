@@ -93,6 +93,7 @@ class Kernel extends \Spiral\Framework\Kernel
             CycleBridge\SchemaBootloader::class,
             CycleBridge\CycleOrmBootloader::class,
             CycleBridge\AnnotatedBootloader::class,
+            CycleBridge\EntityBehaviorBootloader::class,
             ActiveRecordBootloader::class,
 
             // Event Dispatcher

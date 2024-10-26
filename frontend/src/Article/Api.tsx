@@ -14,17 +14,15 @@ export function saveArticle(
 }
 
 export async function loadArticlePreviews(): Promise<ArticlePreview[]> {
-    return await axios.get('/api/article/load', {
-        params: {
-            uuid: '123',
-        },
-    }).then((response) => {
-        // todo Map JSON to Article structure
-        return [];
-    }).catch((error) => {
-        return Array.from({length: Math.round(Math.random() * 10) + 5}, (_, i) =>
-            new ArticlePreview(`${i + 1}`, `Article ${i + 1}`, `This is the content of article ${i + 1}`));
-    });
+    return await axios
+        .get('/api/articles/list')
+        .then((response) => {
+            return response.data.articles;
+        })
+        .catch((error) => {
+            return Array.from({length: Math.round(Math.random() * 10) + 5}, (_, i) =>
+                new ArticlePreview(`${i + 1}`, `Article ${i + 1}`, `This is the content of article ${i + 1}`));
+        });
 }
 
 export function loadArticleEdit(

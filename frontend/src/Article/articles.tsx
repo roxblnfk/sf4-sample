@@ -25,7 +25,7 @@ export default function Articles() {
                             <h2 className="text-xl m-4">{article.title}</h2>
                         </Link>
                         <div className="mt-4 mx-4">
-                            {article.content}
+                            {article.description}
                         </div>
                         <div className="flex flex-nowrap items-center justify-items-stretch">
                             <div className="text-gray-600 text-nowrap m-4">⭐ 123</div>

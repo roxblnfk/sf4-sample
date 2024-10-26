@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Endpoint\Web;
+namespace App\Endpoint\Api;
 
 use App\Module\User\Domain\Entity\UserInterface;
-use App\Module\User\Domain\Service\UserServiceInterface;
 use App\Module\User\Domain\Service\UserRepositoryInterface;
+use App\Module\User\Domain\Service\UserServiceInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
@@ -15,7 +15,7 @@ use Spiral\Router\Annotation\Route;
  * Simple home page controller. It renders home page template and also provides
  * an example of exception page.
  */
-final class UserApi
+final class User
 {
     /**
      * Read more about Prototyping:

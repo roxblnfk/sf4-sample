@@ -28,9 +28,10 @@ final class HomeController
     #[Route(route: '/', name: 'index')]
     public function index(?UserInterface $user): string
     {
-        return $this->views->render('home', data: [
-            'user' => $user,
-        ]);
+        return \file_get_contents(\directory('root') . '/frontend/build/index.html');
+        // return $this->views->render('home', data: [
+        //     'user' => $user,
+        // ]);
     }
 
     /**
