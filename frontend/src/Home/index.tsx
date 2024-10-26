@@ -1,8 +1,10 @@
 import React from 'react';
-import Articles, {loader} from "../Article/articles";
+import Articles, {loader as articlesLoader} from "../Article/articles";
 import {createBrowserRouter, Link, Outlet, RouterProvider} from "react-router-dom";
 import ErrorPage from "../error-page";
 import Contact from "../Profile/contact";
+import Editor, {loader as editorLoader} from "../Article/editor";
+import Article, {loader as articleViewLoader} from "../Article/view";
 
 const router = createBrowserRouter([
     {
@@ -12,8 +14,23 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "",
-                loader: loader,
                 element: <Articles/>,
+                loader: articlesLoader,
+            },
+            {
+                path: "article/",
+                children: [
+                    {
+                        path: "view/:articleId",
+                        element: <Article/>,
+                        loader: articleViewLoader,
+                    },
+                    {
+                        path: "edit/:articleId",
+                        element: <Editor/>,
+                        loader: editorLoader,
+                    }
+                ],
             },
             {
                 path: "contacts/:contactId",
@@ -39,12 +56,6 @@ export function Template() {
                 <div className="flex space-x-4 justify-center">
                     <div className="inline-block">
                         <Link to={`/`}>Home</Link>
-                    </div>
-                    <div className="inline-block">
-                        <Link to={`/contacts/1`}>Your Name</Link>
-                    </div>
-                    <div className="inline-block">
-                        <Link to={`/contacts/2`}>Your Friend</Link>
                     </div>
                 </div>
                 {/*<div>*/}

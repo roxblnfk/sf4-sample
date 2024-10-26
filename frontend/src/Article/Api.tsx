@@ -1,6 +1,6 @@
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
-import {ArticleEdit, ArticlePreview} from "./Dto";
+import {ArticleEdit, ArticlePreview, ArticleView} from "./Dto";
 import axios from "axios";
 
 export function saveArticle(
@@ -12,22 +12,22 @@ export function saveArticle(
         body: JSON.stringify(article)
     });
 }
-export async function loadArticles(): Promise<ArticlePreview[]> {
+
+export async function loadArticlePreviews(): Promise<ArticlePreview[]> {
     return await axios.get('/api/article/load', {
         params: {
             uuid: '123',
         },
     }).then((response) => {
         // todo Map JSON to Article structure
-        return [
-        ];
+        return [];
     }).catch((error) => {
         return Array.from({length: Math.round(Math.random() * 10) + 5}, (_, i) =>
             new ArticlePreview(`${i + 1}`, `Article ${i + 1}`, `This is the content of article ${i + 1}`));
     });
 }
 
-export function loadArticle(
+export function loadArticleEdit(
     uuid: string,
 ): Promise<ArticleEdit> {
     return axios.get('/api/article/load', {
@@ -65,5 +65,25 @@ export function loadArticle(
                 }
             ],
         }
+    });
+}
+
+
+export function loadArticleView(
+    uuid: string,
+): Promise<ArticleView> {
+    return axios.get('/api/article/load', {
+        params: {
+            uuid: uuid,
+        },
+    }).then((response) => {
+        // Map JSON to Article structure
+        return new ArticleView(response.data.uuid, response.data.title, response.data.content);
+    }).catch((error) => {
+        return new ArticleView(
+            uuid,
+            'empty',
+            'fooo',
+        );
     });
 }
