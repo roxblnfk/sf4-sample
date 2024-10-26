@@ -146,6 +146,8 @@ class Kernel extends \Spiral\Framework\Kernel
             // Application domain
             Bootloader\AppBootloader::class,
 
+            // Blog
+            Module\Blog\BlogBootloader::class,
         ];
     }
 }

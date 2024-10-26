@@ -11,6 +11,7 @@ use Cycle\ORM\Collection\LoophpCollectionFactory;
  * Configuration for Cycle ORM.
  *
  * @link https://spiral.dev/docs/basics-orm#orm
+ * @see \Spiral\Cycle\Config\CycleConfig
  */
 return [
     'schema' => [
@@ -40,37 +41,7 @@ return [
             'default' => 'array',
             'factories' => ['array' => new ArrayCollectionFactory()],
         ],
-
-        /**
-         * Schema generators (Optional)
-         * null (default) - Will be used schema generators defined in bootloaders
-         */
-        'generators' => null,
-
-        // 'generators' => [
-        //        \Cycle\Annotated\Embeddings::class,
-        //        \Cycle\Annotated\Entities::class,
-        //        \Cycle\Annotated\MergeColumns::class,
-        //        \Cycle\Schema\Generator\ResetTables::class,
-        //        \Cycle\Schema\Generator\GenerateRelations::class,
-        //        \Cycle\Schema\Generator\ValidateEntities::class,
-        //        \Cycle\Schema\Generator\RenderTables::class,
-        //        \Cycle\Schema\Generator\RenderRelations::class,
-        //        \Cycle\Annotated\TableInheritance::class,
-        //        \Cycle\Annotated\MergeIndexes::class
-        //        \Cycle\Schema\Generator\GenerateTypecast::class,
-        // ],
     ],
 
     'warmup' => env('CYCLE_SCHEMA_WARMUP', false),
-
-    /**
-     * Custom relation types for entities
-     */
-    'customRelations' => [
-        // \Cycle\ORM\Relation::EMBEDDED => [
-        //     \Cycle\ORM\Config\RelationConfig::LOADER => \Cycle\ORM\Select\Loader\EmbeddedLoader::class,
-        //     \Cycle\ORM\Config\RelationConfig::RELATION => \Cycle\ORM\Relation\Embedded::class,
-        // ]
-    ],
 ];
