@@ -5,7 +5,13 @@ import {useCreateBlockNote} from "@blocknote/react";
 import {useEffect, useState} from "react";
 import {Block} from "@blocknote/core";
 import {loadArticle, saveArticle} from "./Api";
-import {Article} from "./Dto";
+import {ArticleEdit} from "./Dto";
+
+// todo use it
+export async function loader() {
+    const article: ArticleEdit = await loadArticle('123');
+    return {article};
+}
 
 export default function Editor() {
     const uuid = '123';
@@ -44,12 +50,7 @@ export default function Editor() {
                     <div className={"wrapper"}>
                         <button
                             onClick={() => {
-                                const Article: Article<string, string, Block[]> = {
-                                    uuid: uuid,
-                                    title: title,
-                                    content: editor.document
-                                }
-                                saveArticle(Article)
+                                saveArticle(new ArticleEdit(uuid, title, editor.document))
                             }}
                         > Store
                         </button>

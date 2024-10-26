@@ -1,5 +1,5 @@
 import React from 'react';
-import Articles from "./articles";
+import Articles, {loader} from "../Article/articles";
 import {createBrowserRouter, Link, Outlet, RouterProvider} from "react-router-dom";
 import ErrorPage from "../error-page";
 import Contact from "../Profile/contact";
@@ -7,11 +7,12 @@ import Contact from "../Profile/contact";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home/>,
+        element: <Template/>,
         errorElement: <ErrorPage/>,
         children: [
             {
                 path: "",
+                loader: loader,
                 element: <Articles/>,
             },
             {
@@ -30,7 +31,7 @@ export default function Index() {
     );
 }
 
-export function Home() {
+export function Template() {
     return (
         <React.StrictMode>
             <div className="text-center box-border border-b-2 pb-12">

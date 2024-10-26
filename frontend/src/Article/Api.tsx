@@ -1,10 +1,10 @@
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
-import {Article} from "./Dto";
+import {ArticleEdit, ArticlePreview} from "./Dto";
 import axios from "axios";
 
 export function saveArticle(
-    article: Article<string, string, any[]>,
+    article: ArticleEdit,
 ): Promise<Response> {
     return fetch('/api/article/store', {
         method: 'POST',
@@ -12,10 +12,24 @@ export function saveArticle(
         body: JSON.stringify(article)
     });
 }
+export async function loadArticles(): Promise<ArticlePreview[]> {
+    return await axios.get('/api/article/load', {
+        params: {
+            uuid: '123',
+        },
+    }).then((response) => {
+        // todo Map JSON to Article structure
+        return [
+        ];
+    }).catch((error) => {
+        return Array.from({length: Math.round(Math.random() * 10) + 5}, (_, i) =>
+            new ArticlePreview(`${i + 1}`, `Article ${i + 1}`, `This is the content of article ${i + 1}`));
+    });
+}
 
 export function loadArticle(
     uuid: string,
-): Promise<Article<string, string, any[]>> {
+): Promise<ArticleEdit> {
     return axios.get('/api/article/load', {
         params: {
             uuid: uuid,
